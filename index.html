@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Toko Online - Sanz Shop</title>
+  <style>
+    :root{
+      --bg:#0b0d10;
+      --card:#0f1720;
+      --muted:#98a0aa;
+      --accent:#06d6a0;
+      --glass: rgba(255,255,255,0.03);
+      --glass-2: rgba(255,255,255,0.02);
+      --shadow: 0 6px 18px rgba(0,0,0,0.6);
+      --radius:14px;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,var(--bg) 0%, #071019 100%);
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:28px;
+    }.app{
+  max-width:1100px;margin:0 auto;
+}
+
+header{
+  display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:22px
+}
+.brand{
+  display:flex;gap:12px;align-items:center
+}
+.logo{
+  width:56px;height:56px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);border-radius:12px;display:grid;place-items:center;box-shadow:var(--shadow)
+}
+.logo svg{width:28px;height:28px}
+h1{font-size:20px;margin:0}
+p.lead{margin:0;color:var(--muted);font-size:13px}
+
+.controls{display:flex;gap:8px;align-items:center}
+.btn{
+  background:var(--glass);border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:10px;color:inherit;cursor:pointer;font-weight:600
+}
+.btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.card{
+  background:linear-gradient(180deg,var(--card),#091021);padding:16px;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid rgba(255,255,255,0.03);transition:transform .22s ease,box-shadow .22s ease
+}
+.card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.7)}
+.card .top{display:flex;align-items:center;gap:12px}
+.icon-wrap{width:54px;height:54px;border-radius:12px;background:var(--glass-2);display:grid;place-items:center}
+.icon-wrap svg{width:26px;height:26px;opacity:0.95}
+.title{font-weight:700}
+.price{color:var(--accent);font-weight:800;margin-top:8px}
+.desc{margin-top:8px;color:var(--muted);font-size:13px}
+.actions{display:flex;gap:8px;margin-top:12px}
+.order{flex:1;padding:10px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#03c08a);color:#02221a;font-weight:800;border:none;cursor:pointer}
+.more{padding:10px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);cursor:pointer}
+
+footer{text-align:center;margin-top:24px;color:var(--muted);font-size:13px}
+
+/* small helpers */
+.badge{background:rgba(255,255,255,0.04);padding:6px 8px;border-radius:8px;font-weight:700;font-size:13px}
+
+@media (max-width:520px){
+  header{flex-direction:column;align-items:flex-start;gap:12px}
+  .controls{width:100%;justify-content:space-between}
+}
+
+/* subtle entrance animation */
+.card{opacity:0;transform:translateY(12px)}
+.card.show{opacity:1;transform:none}
+
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12h18" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/></svg>
+        </div>
+        <div>
+          <h1>Sanz Shop — Toko Online</h1>
+          <p class="lead">Klik produk → langsung chat WhatsApp. Cepat, aman, responsive.</p>
+        </div>
+      </div><div class="controls">
+    <div class="badge">tiktok: @alstrasanz_022</div>
+    <button class="btn secondary" id="toggleTheme">Toggle Theme</button>
+  </div>
+</header>
+
+<main>
+  <div class="grid" id="productGrid">
+    <!-- cards injected by JS -->
+  </div>
+</main>
+
+<footer>
+  Dibuat untukmu • Klik tombol order untuk membuka WhatsApp dengan teks pesan otomatis.
+</footer>
+
+  </div>  <script>
+    // produk (sesuaikan mudah di sini)
+    const products = [
+      {id:'nokos', name:'Nokos', price:'IDR 8K', note:'Instant delivery', img: 'IMG_20250810_071339.jpg'},
+      {id:'drag-hs', name:'Drag HS', price:'IDR 10K', note:'Fast & stable', img: 'IMG_20250810_072720.jpg'},
+      {id:'aimlock', name:'Aimlock', price:'IDR 15K', note:'Combo aim assist', img: 'IMG_20250810_072720.jpg'},
+      {id:'aimbot', name:'Aimbot', price:'IDR 20K', note:'High accuracy', img: 'IMG_20250810_072720.jpg'},
+      {id:'suntik-sosmed', name:'Suntik Sosmed', price:'IDR 5K', note:'Boost engagement', img: 'IMG_20250810_071252.jpg'},
+      {id:'unbanned-wa', name:'Unbanned WhatsApp', price:'tanya di pm aja', note:'Harga tergantung opsi — PM aja', img: 'IMG_20250810_070850.jpg'},
+      {id:'banned-wa', name:'Banned WhatsApp', price:'IDR 20K', note:'Restore banned account', img: 'Y.jpeg'},
+      {id:'buat-web', name:'Buat Web', price:'IDR 25K', note:'Jasa pembuatan web', img: 'IMG_20250810_070411.jpg'}
+    ];
+
+    const iconMap = {
+      wallet: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" stroke-width="1.4"/><circle cx="18" cy="12" r="1.6" fill="currentColor"/></svg>`,
+      cursor: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 3l7.5 13L11 10l6 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+      target: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M12 5v2M12 17v2M5 12h2M17 12h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`,
+      bolt: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>`,
+      like: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.8 8.6c0-2.7-2.2-4.9-4.9-4.9-1.5 0-2.9.7-3.8 1.9C11.1 4.4 9.7 3.7 8.2 3.7 5.5 3.7 3.3 5.9 3.3 8.6c0 5.5 7.5 11 9.5 12.4.4.3 1.1.3 1.5 0 2-1.4 9.5-6.9 9.5-12.4z" stroke="currentColor" stroke-width="1.2"/></svg>`,
+      unlock: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="10" width="18" height="10" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M7 10V7a5 5 0 0110 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`,
+      ban: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.4"/><path d="M4 4l16 16" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`,
+      code: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 7L3 12l5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 7l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+    };
+
+    const grid = document.getElementById('productGrid');
+
+    function makeCard(p){
+      const el = document.createElement('div');
+      el.className = 'card';
+      el.innerHTML = `
+        <div class="top">
+          <div class="icon-wrap">${iconMap[p.icon] || iconMap.code}</div>
+          <div style="flex:1">
+            <div class="title">${p.name}</div>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+              <div class="price">${p.price}</div>
+              <div style="color:var(--muted);font-size:13px">${p.note}</div>
+            </div>
+          </div>
+        </div>
+        <div class="desc">Klik tombol <strong>Order</strong> untuk membuka WhatsApp dengan pesan otomatis berisi detail pesanan.</div>
+        <div class="actions">
+          <button class="order" data-id="${p.id}">Order via WhatsApp</button>
+          <button class="more">Detail</button>
+        </div>
+      `;
+
+      // order button click
+      el.querySelector('.order').addEventListener('click', ()=>{
+        openWhatsApp(p);
+      });
+
+      // small detail animation
+      el.querySelector('.more').addEventListener('click', ()=>{
+        alert(`${p.name} — ${p.price}\n\nKeterangan: ${p.note}`);
+      });
+
+      return el;
+    }
+
+    // render cards with small stagger animation
+    products.forEach((p,i)=>{
+      const c = makeCard(p);
+      grid.appendChild(c);
+      setTimeout(()=> c.classList.add('show'), 80*i);
+    });
+
+    function openWhatsApp(product){
+      // pesan default (ubah bila perlu)
+      const waNumber = '6288971548048';
+      const message = `Halo, saya mau pesan *${product.name}* (${product.price}). Mohon info cara pembayaran & estimasi.`;
+      const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+      window.open(url,'_blank');
+    }
+
+    // theme toggle (simple contrast switch)
+    const toggle = document.getElementById('toggleTheme');
+    toggle.addEventListener('click', ()=>{
+      if(document.documentElement.style.getPropertyValue('--bg') === '#0b0d10'){
+        // switch to light-ish variant
+        document.documentElement.style.setProperty('--bg','#f6f8fa');
+        document.documentElement.style.setProperty('--card','#ffffff');
+        document.documentElement.style.setProperty('--muted','#55606a');
+        document.documentElement.style.setProperty('--accent','#0b7285');
+        document.documentElement.style.setProperty('--glass','rgba(0,0,0,0.04)');
+        document.documentElement.style.setProperty('--glass-2','rgba(0,0,0,0.03)');
+        document.documentElement.style.setProperty('color-scheme','light');
+        document.body.style.color = '#081226';
+      } else {
+        // back to dark
+        document.documentElement.style.setProperty('--bg','#0b0d10');
+        document.documentElement.style.setProperty('--card','#0f1720');
+        document.documentElement.style.setProperty('--muted','#98a0aa');
+        document.documentElement.style.setProperty('--accent','#06d6a0');
+        document.documentElement.style.setProperty('--glass','rgba(255,255,255,0.03)');
+        document.documentElement.style.setProperty('--glass-2','rgba(255,255,255,0.02)');
+        document.documentElement.style.setProperty('color-scheme','dark');
+        document.body.style.color = '#e6eef6';
+      }
+    });
+
+  </script></body>
+</html>
